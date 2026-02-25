@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoEnba - 農家パートナー募集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans JP',sans-serif;
+  color:#645031;
+  background:#fff;
+  line-height:2;
+  letter-spacing:0.06em;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* ===== HEADER ===== */
+.header{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 50px;
+  height:80px;
+  transition:background 0.5s,box-shadow 0.5s;
+}
+.header.scrolled{
+  background:rgba(255,255,255,0.97);
+  box-shadow:0 1px 0 rgba(100,80,49,0.1);
+}
+.header-logo img{
+  height:100px;
+  width:auto;
+  filter:brightness(0) invert(1);
+  transition:filter 0.5s,height 0.5s;
+}
+.header.scrolled .header-logo img{
+  filter:none;
+  height:100px;
+}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
+.header-contact{
+  font-family:'Cormorant Garamond',serif;
+  font-size:12px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.8);
+  border:1px solid rgba(255,255,255,0.4);
+  padding:8px 24px;
+  transition:all 0.4s;
+}
+.header.scrolled .header-contact{
+  color:#645031;
+  border-color:rgba(100,80,49,0.3);
+}
+.header-contact:hover{
+  background:rgba(255,255,255,0.15);
+}
+.header.scrolled .header-contact:hover{
+  background:rgba(100,80,49,0.05);
+}
+/* Hamburger */
+.hamburger{
+  width:28px;
+  height:20px;
+  position:relative;
+  cursor:pointer;
+}
+.hamburger span{
+  display:block;
+  width:100%;
+  height:1px;
+  background:#fff;
+  position:absolute;
+  left:0;
+  transition:background 0.4s;
+}
+.hamburger span:nth-child(1){top:0}
+.hamburger span:nth-child(2){top:50%;transform:translateY(-50%)}
+.hamburger span:nth-child(3){bottom:0}
+.header.scrolled .hamburger span{background:#645031}
+/* Hamburger active state (X) */
+.hamburger.active span:nth-child(1){top:50%;transform:translateY(-50%) rotate(45deg);background:#fff}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){bottom:auto;top:50%;transform:translateY(-50%) rotate(-45deg);background:#fff}
+.header.scrolled .hamburger.active span{background:#645031}
+
+/* ===== NAV MENU ===== */
+.nav-menu{
+  position:fixed;
+  top:0;right:-100%;
+  width:360px;
+  max-width:85vw;
+  height:100vh;
+  background:rgba(58,48,32,0.97);
+  z-index:999;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:60px;
+  transition:right 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.nav-menu.open{right:0}
+.nav-menu a{
+  display:block;
+  font-family:'Noto Serif JP',serif;
+  font-size:18px;
+  font-weight:300;
+  color:rgba(255,255,255,0.8);
+  letter-spacing:0.12em;
+  padding:16px 0;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  transition:color 0.3s;
+}
+.nav-menu a:hover{color:#fff}
+.nav-menu .nav-en{
+  display:block;
+  font-family:'Cormorant Garamond',serif;
+  font-size:10px;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  margin-top:4px;
+}
+.nav-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  z-index:998;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity 0.4s,visibility 0.4s;
+}
+.nav-overlay.open{opacity:1;visibility:visible}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;
+  height:100vh;
+  min-height:750px;
+  overflow:hidden;
+}
+.hero-slide{
+  position:absolute;
+  inset:0;
+  background:url('images/hero-bg.jpg') center/cover no-repeat;
+  animation:kenBurns 25s ease-in-out infinite alternate;
+}
+@keyframes kenBurns{
+  0%{transform:scale(1)}
+  100%{transform:scale(1.12)}
+}
+.hero-slide::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(40,35,25,0.25) 0%,
+    rgba(40,35,25,0.05) 35%,
+    rgba(40,35,25,0.15) 65%,
+    rgba(40,35,25,0.55) 100%
+  );
+}
+.hero-content{
+  position:absolute;
+  top:50%;
+  left:0;right:0;
+  transform:translateY(-50%);
+  text-align:center;
+  z-index:2;
+  color:#fff;
+}
+.hero-en{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;
+  font-weight:400;
+  letter-spacing:0.5em;
+  text-transform:uppercase;
+  opacity:0.6;
+  margin-bottom:28px;
+}
+.hero-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(28px,4.5vw,52px);
+  font-weight:200;
+  letter-spacing:0.2em;
+  line-height:1.8;
+  margin-bottom:0;
+}
+/* Scroll indicator - SEKAIE style */
+.hero-scroll{
+  position:absolute;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+.hero-scroll-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:10px;
+  letter-spacing:0.3em;
+  color:rgba(255,255,255,0.4);
+  writing-mode:vertical-rl;
+}
+.hero-scroll-line{
+  width:1px;
+  height:50px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-scroll-line::before{
+  content:'';
+  position:absolute;
+  top:-100%;left:0;
+  width:1px;height:100%;
+  background:rgba(255,255,255,0.5);
+  animation:heroScroll 2s ease-in-out infinite;
+}
+@keyframes heroScroll{
+  0%{top:-100%}
+  100%{top:100%}
+}
+
+/* ===== SECTION COMMON ===== */
+.section-title{
+  text-align:center;
+  margin-bottom:60px;
+}
+.section-title .en{
+  display:block;
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:#b3a78f;
+  margin-bottom:14px;
+}
+.section-title h2{
+  font-family:'Noto Serif JP',serif;
+  font-size:28px;
+  font-weight:300;
+  color:#645031;
+  letter-spacing:0.15em;
+}
+/* Brush decoration */
+.section-title .brush{
+  display:block;
+  width:50px;
+  height:8px;
+  margin:18px auto 0;
+  position:relative;
+}
+.section-title .brush::before{
+  content:'';
+  position:absolute;
+  top:3px;left:0;
+  width:100%;height:2px;
+  background:linear-gradient(90deg,transparent 0%,#c4b08a 20%,#c4b08a 80%,transparent 100%);
+}
+
+/* ===== ABOUT ===== */
+.about{
+  padding:140px 0 100px;
+}
+.about-text{
+  max-width:680px;
+  margin:0 auto;
+  text-align:center;
+  padding:0 40px;
+}
+.about-lead{
+  font-family:'Noto Serif JP',serif;
+  font-size:20px;
+  font-weight:300;
+  line-height:2.4;
+  color:#645031;
+  letter-spacing:0.1em;
+  margin-bottom:36px;
+}
+.about-body{
+  font-size:14px;
+  font-weight:300;
+  line-height:2.4;
+  color:#8a7e6a;
+}
+
+/* About grid - SEKAIE style 3-column cards */
+.about-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:80px;
+}
+.about-card{
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+}
+.about-card-img{
+  aspect-ratio:3/4;
+  overflow:hidden;
+}
+.about-card-img img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.about-card:hover .about-card-img img{
+  transform:scale(1.06);
+}
+.about-card-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(40,35,25,0.6) 0%,transparent 50%);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:40px 30px;
+  color:#fff;
+}
+.about-card-en{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  opacity:0.6;
+  margin-bottom:8px;
+}
+.about-card-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:20px;
+  font-weight:300;
+  letter-spacing:0.12em;
+}
+
+/* ===== FULL IMAGE SECTION ===== */
+.full-image{
+  position:relative;
+  height:60vh;
+  min-height:400px;
+  overflow:hidden;
+}
+.full-image img{
+  width:100%;height:100%;
+  object-fit:cover;
+}
+.full-image-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(40,35,25,0.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.full-image-text{
+  text-align:center;
+  color:#fff;
+}
+.full-image-text .en{
+  font-family:'Cormorant Garamond',serif;
+  font-size:12px;
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  opacity:0.6;
+  margin-bottom:16px;
+}
+.full-image-text h2{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(22px,3.5vw,36px);
+  font-weight:200;
+  letter-spacing:0.2em;
+  line-height:1.8;
+}
+
+/* ===== FEATURES (editorial layout) ===== */
+.features{
+  padding:120px 0;
+}
+.feature-block{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:500px;
+}
+.feature-block:nth-child(odd) .feature-img{order:1}
+.feature-block:nth-child(odd) .feature-content{order:2}
+.feature-block:nth-child(even) .feature-img{order:2}
+.feature-block:nth-child(even) .feature-content{order:1}
+.feature-img{
+  overflow:hidden;
+}
+.feature-img img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.feature-block:hover .feature-img img{
+  transform:scale(1.04);
+}
+.feature-content{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:60px 80px;
+  background:#faf8f5;
+}
+.feature-content .en{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:#b3a78f;
+  margin-bottom:16px;
+}
+.feature-content h3{
+  font-family:'Noto Serif JP',serif;
+  font-size:24px;
+  font-weight:300;
+  color:#645031;
+  letter-spacing:0.1em;
+  line-height:1.8;
+  margin-bottom:28px;
+}
+.feature-content p{
+  font-size:14px;
+  font-weight:300;
+  color:#8a7e6a;
+  line-height:2.4;
+}
+
+/* ===== NUMBERS ===== */
+.numbers{
+  padding:100px 40px;
+  background:#645031;
+  color:#fff;
+}
+.numbers .section-title .en{color:rgba(255,255,255,0.4)}
+.numbers .section-title h2{color:#fff}
+.numbers .section-title .brush::before{
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.3) 20%,rgba(255,255,255,0.3) 80%,transparent 100%);
+}
+.numbers-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  max-width:1000px;
+  margin:0 auto;
+  text-align:center;
+}
+.number-item{
+  padding:40px 20px;
+  position:relative;
+}
+.number-item:not(:last-child)::after{
+  content:'';
+  position:absolute;
+  right:0;top:30%;
+  height:40%;width:1px;
+  background:rgba(255,255,255,0.15);
+}
+.number-item .value{
+  font-family:'Cormorant Garamond',serif;
+  font-size:72px;
+  font-weight:300;
+  line-height:1;
+  color:#fff;
+  margin-bottom:4px;
+}
+.number-item .value span{font-size:22px}
+.number-item .label{
+  font-size:13px;
+  font-weight:300;
+  color:rgba(255,255,255,0.5);
+  letter-spacing:0.08em;
+  margin-top:16px;
+}
+
+/* ===== FLOW ===== */
+.flow{
+  padding:120px 40px;
+}
+.flow-inner{
+  max-width:800px;
+  margin:0 auto;
+}
+.flow-steps{
+  position:relative;
+  padding-left:60px;
+}
+.flow-steps::before{
+  content:'';
+  position:absolute;
+  left:20px;top:0;bottom:0;
+  width:1px;
+  background:#ddd5c8;
+}
+.flow-step{
+  position:relative;
+  margin-bottom:56px;
+  padding-bottom:0;
+}
+.flow-step:last-child{margin-bottom:0}
+.flow-step-num{
+  position:absolute;
+  left:-60px;
+  top:0;
+  width:40px;height:40px;
+  border-radius:50%;
+  background:#fff;
+  border:1px solid #c4b08a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;
+  color:#645031;
+}
+.flow-step h3{
+  font-family:'Noto Serif JP',serif;
+  font-size:18px;
+  font-weight:400;
+  color:#645031;
+  letter-spacing:0.08em;
+  margin-bottom:8px;
+}
+.flow-step p{
+  font-size:14px;
+  font-weight:300;
+  color:#8a7e6a;
+  line-height:2.2;
+}
+
+/* ===== VOICE ===== */
+.voice{
+  padding:100px 40px;
+  background:#faf8f5;
+}
+.voice-inner{
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+}
+.voice-quote{
+  font-family:'Noto Serif JP',serif;
+  font-size:16px;
+  font-weight:300;
+  line-height:2.6;
+  color:#645031;
+  letter-spacing:0.06em;
+  margin-bottom:32px;
+  position:relative;
+  padding:0 20px;
+}
+.voice-quote::before{
+  content:'\201C';
+  font-family:'Cormorant Garamond',serif;
+  font-size:80px;
+  color:#ddd5c8;
+  position:absolute;
+  top:-30px;left:-10px;
+  line-height:1;
+}
+.voice-name{
+  font-size:13px;
+  color:#b3a78f;
+  letter-spacing:0.1em;
+}
+
+/* ===== FEE ===== */
+.fee{
+  padding:120px 40px;
+}
+.fee-inner{
+  max-width:600px;
+  margin:0 auto;
+  text-align:center;
+}
+.fee-rate{
+  margin-bottom:40px;
+}
+.fee-label{
+  font-size:13px;
+  color:#b3a78f;
+  letter-spacing:0.15em;
+  margin-bottom:16px;
+}
+.fee-number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:88px;
+  font-weight:300;
+  color:#645031;
+  line-height:1;
+}
+.fee-number span{font-size:28px}
+.fee-note{
+  font-size:13px;
+  color:#b3a78f;
+  margin-top:8px;
+}
+.fee-divider{
+  width:40px;height:1px;
+  background:#ddd5c8;
+  margin:36px auto;
+}
+.fee-detail{
+  font-size:14px;
+  font-weight:300;
+  color:#8a7e6a;
+  line-height:2.4;
+}
+.fee-highlight{
+  margin-top:40px;
+  font-family:'Noto Serif JP',serif;
+  font-size:18px;
+  font-weight:300;
+  color:#645031;
+  letter-spacing:0.08em;
+}
+
+/* ===== CTA ===== */
+.cta{
+  position:relative;
+  padding:140px 40px;
+  overflow:hidden;
+}
+.cta-bg{
+  position:absolute;
+  inset:0;
+  background:url('images/cta-bg.jpg') center/cover no-repeat;
+}
+.cta-bg::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(40,35,25,0.65);
+}
+.cta-content{
+  position:relative;
+  z-index:2;
+  max-width:600px;
+  margin:0 auto;
+  text-align:center;
+  color:#fff;
+}
+.cta-content .en{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  opacity:0.5;
+  margin-bottom:20px;
+}
+.cta-content h2{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(24px,3.5vw,34px);
+  font-weight:200;
+  letter-spacing:0.18em;
+  line-height:1.8;
+  margin-bottom:28px;
+}
+.cta-content p{
+  font-size:14px;
+  font-weight:300;
+  line-height:2.4;
+  opacity:0.65;
+  margin-bottom:48px;
+}
+.cta-btn{
+  display:inline-block;
+  padding:15px 56px;
+  border:1px solid rgba(255,255,255,0.4);
+  font-family:'Noto Serif JP',serif;
+  font-size:14px;
+  font-weight:300;
+  color:#fff;
+  letter-spacing:0.2em;
+  transition:all 0.5s;
+}
+.cta-btn:hover{
+  background:rgba(255,255,255,0.1);
+  border-color:rgba(255,255,255,0.7);
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  padding:60px 40px 40px;
+  background:#3a3020;
+  text-align:center;
+}
+.footer-logo{
+  margin-bottom:16px;
+}
+.footer-logo img{
+  height:50px;
+  margin:0 auto;
+  filter:brightness(0) invert(1);
+  opacity:0.5;
+}
+.footer-tagline{
+  font-size:11px;
+  color:rgba(255,255,255,0.25);
+  letter-spacing:0.12em;
+  margin-bottom:32px;
+}
+.footer-links{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  margin-bottom:32px;
+}
+.footer-links a{
+  font-size:11px;
+  color:rgba(255,255,255,0.3);
+  letter-spacing:0.08em;
+  transition:color 0.3s;
+}
+.footer-links a:hover{color:rgba(255,255,255,0.6)}
+.footer-copy{
+  font-family:'Cormorant Garamond',serif;
+  font-size:10px;
+  color:rgba(255,255,255,0.2);
+  letter-spacing:0.15em;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .header{padding:0 20px;height:60px}
+  .header-logo img{height:60px}
+  .header.scrolled .header-logo img{height:50px}
+  .header-contact{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .about-card-img{aspect-ratio:16/9}
+  .feature-block{grid-template-columns:1fr;min-height:auto}
+  .feature-block:nth-child(odd) .feature-img,
+  .feature-block:nth-child(even) .feature-img{order:1}
+  .feature-block:nth-child(odd) .feature-content,
+  .feature-block:nth-child(even) .feature-content{order:2}
+  .feature-img{height:300px}
+  .feature-content{padding:40px 30px}
+  .numbers-grid{grid-template-columns:1fr;gap:0}
+  .number-item:not(:last-child)::after{
+    right:30%;top:auto;bottom:0;
+    height:1px;width:40%;
+  }
+  .hero-content{bottom:100px}
+  .full-image{height:40vh;min-height:280px}
+}
+
+/* ===== ANIMATIONS ===== */
+.fade-in{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 1s ease,transform 1s ease;
+}
+.fade-in.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <a href="#" class="header-logo"><img src="goenba-logo.jpg" alt="GoEnba"></a>
+  <div class="header-right">
+    <a href="#contact" class="header-contact">Contact</a>
+    <div class="hamburger" id="menuBtn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV MENU -->
+<div class="nav-overlay" id="navOverlay"></div>
+<nav class="nav-menu" id="navMenu">
+  <a href="#about">GoEnbaとは<span class="nav-en">About</span></a>
+  <a href="#features">特徴<span class="nav-en">Features</span></a>
+  <a href="#flow">ご参加の流れ<span class="nav-en">Flow</span></a>
+  <a href="#fee">手数料<span class="nav-en">Commission</span></a>
+  <a href="#contact">お問い合わせ<span class="nav-en">Contact</span></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-slide"></div>
+  <div class="hero-content">
+    <p class="hero-en">Farm to Table, Direct</p>
+    <h1 class="hero-title">
+      農業に、専念できる。<br>
+      届けるは、私たちが。
+    </h1>
+  </div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="section-title fade-in">
+    <span class="en">About</span>
+    <h2>GoEnbaとは</h2>
+    <span class="brush"></span>
+  </div>
+  <div class="about-text fade-in">
+    <p class="about-lead">
+      丹精込めて育てた農産物を、<br>
+      正当な価格で、お客様の食卓へ。
+    </p>
+    <p class="about-body">
+      GoEnbaは、農家さんが農業に専念できるよう<br>
+      出品・撮影・ページ作成・販売・配送手配まで<br>
+      一貫してサポートする産直ECプラットフォームです。
+    </p>
+  </div>
+  <div class="about-grid">
+    <div class="about-card fade-in">
+      <div class="about-card-img">
+        <img src="images/about-support.jpg" alt="伴走支援">
+      </div>
+      <div class="about-card-overlay">
+        <span class="about-card-en">Support</span>
+        <h3 class="about-card-title">伴走支援</h3>
+      </div>
+    </div>
+    <div class="about-card fade-in">
+      <div class="about-card-img">
+        <img src="images/about-lowcost.jpg" alt="低手数料">
+      </div>
+      <div class="about-card-overlay">
+        <span class="about-card-en">Low Cost</span>
+        <h3 class="about-card-title">低手数料</h3>
+      </div>
+    </div>
+    <div class="about-card fade-in">
+      <div class="about-card-img">
+        <img src="images/about-direct.jpg" alt="農家直送">
+      </div>
+      <div class="about-card-overlay">
+        <span class="about-card-en">Direct</span>
+        <h3 class="about-card-title">農家直送</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL IMAGE BREAK -->
+<section class="full-image">
+  <img src="images/mission-bg.jpg" alt="">
+  <div class="full-image-overlay">
+    <div class="full-image-text">
+      <p class="en">Our Mission</p>
+      <h2>農家が農業に専念し、<br>正当な利益を得られる仕組みを。</h2>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-title fade-in">
+    <span class="en">Features</span>
+    <h2>GoEnbaの特徴</h2>
+    <span class="brush"></span>
+  </div>
+
+  <div class="feature-block fade-in">
+    <div class="feature-img">
+      <img src="images/feature-support.jpg" alt="伴走支援">
+    </div>
+    <div class="feature-content">
+      <span class="en">Support</span>
+      <h3>出品から販売まで<br>トータル伴走支援</h3>
+      <p>
+        商品の撮影、ページ作成、価格設定のアドバイスまで、EC運営に必要なすべてを私たちがサポートします。農家さんは農業に集中していただくだけ。ITの知識やEC経験は一切不要です。
+      </p>
+    </div>
+  </div>
+
+  <div class="feature-block fade-in">
+    <div class="feature-img">
+      <img src="images/about-lowcost.jpg" alt="低手数料">
+    </div>
+    <div class="feature-content">
+      <span class="en">Low Commission</span>
+      <h3>業界最低水準の手数料で<br>農家の利益を最大化</h3>
+      <p>
+        プラットフォーム手数料はわずか12%。決済手数料3.3%を含めても、売上の約85%が農家さんの手取りになります。大手ECと比べて、大きな差が生まれます。
+      </p>
+    </div>
+  </div>
+
+  <div class="feature-block fade-in">
+    <div class="feature-img">
+      <img src="images/feature-direct.jpg" alt="農家直送">
+    </div>
+    <div class="feature-content">
+      <span class="en">Direct Delivery</span>
+      <h3>畑から食卓へ<br>鮮度をそのままお届け</h3>
+      <p>
+        農家さんから消費者へダイレクトに届く仕組み。ヤマト運輸・佐川急便対応のCSV出力で送り状作成もワンクリック。中間流通をカットし、鮮度と価格を両立します。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS -->
+<section class="numbers">
+  <div class="section-title fade-in">
+    <span class="en">Numbers</span>
+    <h2>数字で見るGoEnba</h2>
+    <span class="brush"></span>
+  </div>
+  <div class="numbers-grid">
+    <div class="number-item fade-in">
+      <div class="value">12<span>%</span></div>
+      <div class="label">プラットフォーム手数料</div>
+    </div>
+    <div class="number-item fade-in">
+      <div class="value">85<span>%</span></div>
+      <div class="label">農家さんの手取り率</div>
+    </div>
+    <div class="number-item fade-in">
+      <div class="value">0<span>円</span></div>
+      <div class="label">初期費用・月額費用</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow" id="flow">
+  <div class="flow-inner">
+    <div class="section-title fade-in">
+      <span class="en">Flow</span>
+      <h2>ご参加の流れ</h2>
+      <span class="brush"></span>
+    </div>
+    <div class="flow-steps">
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">1</div>
+        <h3>お問い合わせ</h3>
+        <p>まずはお気軽にご連絡ください。栽培されている作物や販売のご希望をお聞かせください。</p>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">2</div>
+        <h3>訪問・ヒアリング</h3>
+        <p>担当者が農園を訪問。作物の魅力やこだわりを丁寧にお聞きし、販売戦略を一緒に考えます。</p>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">3</div>
+        <h3>撮影・ページ作成</h3>
+        <p>プロ品質の写真撮影と商品ページの作成はすべてGoEnbaが対応。想いが伝わるページを制作します。</p>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">4</div>
+        <h3>販売開始</h3>
+        <p>受注管理や配送手配のサポートも継続。売上や反応を見ながら、改善提案も行います。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICE -->
+<section class="voice">
+  <div class="voice-inner">
+    <div class="section-title fade-in">
+      <span class="en">Voice</span>
+      <h2>農家さんの声</h2>
+      <span class="brush"></span>
+    </div>
+    <div class="fade-in">
+      <p class="voice-quote">
+        自分でECを始めようとしたこともありましたが、写真を撮って、説明文を書いて、注文の管理もして…正直、畑仕事との両立は無理でした。GoEnbaさんに任せてからは、農業に集中できています。
+      </p>
+      <p class="voice-name">— 静岡県 野菜農家 K.T さん（イメージ）</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEE -->
+<section class="fee" id="fee">
+  <div class="fee-inner">
+    <div class="section-title fade-in">
+      <span class="en">Commission</span>
+      <h2>手数料について</h2>
+      <span class="brush"></span>
+    </div>
+    <div class="fade-in">
+      <div class="fee-rate">
+        <p class="fee-label">プラットフォーム手数料</p>
+        <p class="fee-number">12<span>%</span></p>
+        <p class="fee-note">商品税抜価格に対して</p>
+      </div>
+      <div class="fee-divider"></div>
+      <div class="fee-detail">
+        <p>決済手数料：3.3%（PAY.JP Marketplace）</p>
+        <p>初期費用・月額費用は一切かかりません。</p>
+        <p>売れた分だけの成果報酬型です。</p>
+      </div>
+      <p class="fee-highlight">農家さんの手取り ＝ 売上の約 85%</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="cta-bg"></div>
+  <div class="cta-content fade-in">
+    <p class="en">Contact</p>
+    <h2>一緒に、届けませんか。</h2>
+    <p>
+      GoEnbaは、農家さんと共に歩むパートナーです。<br>
+      まずはお気軽にお問い合わせください。
+    </p>
+    <a href="mailto:r.sekine.goenba@gmail.com" class="cta-btn">お問い合わせはこちら</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo"><img src="goenba-logo.jpg" alt="GoEnba"></div>
+  <p class="footer-tagline">農家の伴走支援型・産直ECプラットフォーム</p>
+  <div class="footer-links">
+    <a href="#about">GoEnbaとは</a>
+    <a href="#features">特徴</a>
+    <a href="#flow">ご参加の流れ</a>
+    <a href="#fee">手数料</a>
+    <a href="#contact">お問い合わせ</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 GoEnba Inc. All rights reserved.</p>
+</footer>
+
+<script>
+// Header scroll
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// Fade-in on scroll
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+fadeEls.forEach(el => fadeObserver.observe(el));
+
+// Hamburger menu
+const menuBtn = document.getElementById('menuBtn');
+const navMenu = document.getElementById('navMenu');
+const navOverlay = document.getElementById('navOverlay');
+const navLinks = navMenu.querySelectorAll('a');
+
+function toggleMenu() {
+  menuBtn.classList.toggle('active');
+  navMenu.classList.toggle('open');
+  navOverlay.classList.toggle('open');
+}
+menuBtn.addEventListener('click', toggleMenu);
+navOverlay.addEventListener('click', toggleMenu);
+navLinks.forEach(link => link.addEventListener('click', toggleMenu));
+</script>
+
+</body>
+</html>
