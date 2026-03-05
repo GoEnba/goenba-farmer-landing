@@ -1,47 +1,63 @@
 # farmer-landing.html 使用画像一覧
 
 **作成日**: 2026-02-25
-**更新日**: 2026-02-25（画像ローカル化完了）
+**更新日**: 2026-03-04（画像差し替え実施）
 **確認者**: Claude Code
 
 ---
 
-## ✅ 画像ローカル化 完了
+## 画像差し替え履歴
 
-すべてのUnsplash画像をローカルにダウンロードし、HTMLファイルのURLを書き換えました。
+### 2026-03-04 画像差し替え
+- ヒーローセクション・Our Mission以外の6枚を文言に合致する画像に差し替え
+- 旧画像は `images/backup/` にバックアップ済み
 
-## 📸 使用画像の全リスト
-
-### 1. ロゴ画像
-| ファイル名 | 場所 | 形式 | サイズ | 使用箇所 | 出典 |
-|-----------|------|------|--------|---------|------|
-| goenba-logo.jpg | ローカル | PNG (拡張子不一致⚠️) | 426KB (3709x2681px) | ヘッダー、フッター | 要確認 |
-
-### 2. ローカル画像（images/ディレクトリ）
-
-| ファイル名 | サイズ | 使用箇所 | alt属性 | 元URL（Unsplash） |
-|-----------|------|---------|---------|------------------|
-| hero-bg.jpg | 348KB | Hero背景（CSS） | - | photo-1500382017468-9049fed747ef |
-| cta-bg.jpg | 395KB | CTA背景（CSS） | - | photo-1625246333195-78d9c38ad449 |
-| about-support.jpg | 148KB | Aboutカード1 | 伴走支援 | photo-1464226184884-fa280b87c399 |
-| about-lowcost.jpg | 41KB | Aboutカード2 & Feature2 | 低手数料 | photo-1579621970563-ebec7560ff3e |
-| about-direct.jpg | 157KB | Aboutカード3 | 農家直送 | photo-1488459716781-31db52582fe9 |
-| mission-bg.jpg | 1.0MB | ミッションセクション | - | photo-1523741543316-beb7fc7023d8 |
-| feature-support.jpg | 71KB | Feature1 | 伴走支援 | photo-1605000797499-95a51c5269ae |
-| feature-direct.jpg | 118KB | Feature3 | 農家直送 | photo-1471193945509-9ad0617afabf |
-
-**合計**: 8ファイル、2.3MB
+### 2026-02-25 画像ローカル化
+- すべてのUnsplash画像をローカルにダウンロードし、HTMLファイルのURLを書き換え
 
 ---
 
-## ✅ 完了した項目
+## 使用画像の全リスト
 
-- [x] Unsplash画像のローカル化（8ファイル、2.3MB）
-- [x] HTMLファイルのURL書き換え
-- [x] 画像の内容確認（人物の顔・ロゴなし確認済み）
-- [x] Unsplashライセンス確認（商用利用OK）
+### 1. ロゴ画像
+| ファイル名 | サイズ | 使用箇所 | 出典 |
+|-----------|------|---------|------|
+| goenba-logo.jpg | 426KB (3709x2681px) | ヘッダー、フッター | 要確認 |
 
-## ⚠️ 残タスク
+### 2. 変更なしの画像
+| ファイル名 | サイズ | 使用箇所 | alt属性 | 元URL（Unsplash） |
+|-----------|------|---------|---------|------------------|
+| hero-bg.jpg | 348KB | Hero背景（CSS） | - | photo-1500382017468-9049fed747ef |
+| mission-bg.jpg | 1.0MB | ミッションセクション | - | photo-1523741543316-beb7fc7023d8 |
+
+### 3. 差し替え済み画像（2026-03-04）
+
+| ファイル名 | サイズ | 使用箇所 | alt属性 | 内容 | Unsplash ID |
+|-----------|------|---------|---------|------|-------------|
+| about-support.jpg | 130KB (1200x580) | Aboutカード1 | 魅力発信代行 | 田んぼでラップトップを操作する農家 | o_tWu03QY9Y |
+| about-lowcost.jpg | 128KB (1200x800) | Aboutカード2, Feature2 | ページ作成代行 | オフィスでPC作業する2人 | gVtJgTyi2iI |
+| about-direct.jpg | 83KB (1200x800) | Aboutカード3, Feature2 | お客様対応代行 | ヘッドセットのCSスタッフ | ieayo480x78 |
+| feature-support.jpg | 80KB (1200x800) | Feature1 | ブランディング・コンテンツ制作 | ノートに鉛筆で執筆中 | RdmLSJR-tq8 |
+| feature-direct.jpg | 217KB (1200x1800) | Feature3 | スマホでSNS操作・簡単出品 | スマホでSNSストーリーを操作 | GPJwAHd8maE |
+| cta-bg.jpg | 139KB (1200x675) | CTA背景（CSS） | - | 農家がAIタブレットで作物監視 | NU_s4KI_zME |
+
+**差し替え後合計**: 8ファイル、約1.3MB（旧: 2.3MB → 軽量化）
+
+---
+
+## バックアップ
+
+旧画像は `images/backup/` に保存：
+- about-support.jpg (148KB)
+- about-lowcost.jpg (41KB)
+- about-direct.jpg (157KB)
+- feature-support.jpg (71KB)
+- feature-direct.jpg (118KB)
+- cta-bg.jpg (395KB)
+
+---
+
+## 残タスク
 
 ### 1. goenba-logo.jpg
 - [ ] 出典・著作権の確認
@@ -50,13 +66,12 @@
 ### 2. 今後の改善案（任意）
 - [ ] 画像の最適化（WebP形式への変換でさらに軽量化）
 - [ ] 実際の農家の写真を使用してブランドの信頼性向上
-- [ ] Unsplashクレジット表記の追加（推奨、必須ではない）
+- [ ] about-support.jpgのアスペクト比改善（現在1200x580で横長）
 
 ---
 
-## 📝 Unsplashライセンスについて
+## Unsplashライセンスについて
 
-- **商用利用**: ✅ 可能
+- **商用利用**: 可能
 - **クレジット表記**: 推奨（必須ではない）
-- **人物の顔・ブランドロゴ**: すべての画像で確認済み、問題なし
 - **ライセンス詳細**: [Unsplash License](https://unsplash.com/license)
