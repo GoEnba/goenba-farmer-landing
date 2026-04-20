@@ -113,7 +113,8 @@
     }
     .hero-content {
       position: absolute; top: 50%; left: 0; right: 0;
-      transform: translateY(-50%); text-align: center; z-index: 2; color: #fff;
+      transform: translate3d(0, calc(-50% + var(--parallax-y, 0px)), 0);
+      text-align: center; z-index: 2; color: #fff;
     }
     .hero-en {
       font-family: 'Cormorant Garamond', serif; font-size: 13px; font-weight: 400;
@@ -162,6 +163,257 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     }
 
+    /* ===== MANIFESTO (想いセクション — Editorial) ===== */
+    .manifesto {
+      position: relative;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #faf8f5 120px, #faf8f5 calc(100% - 160px), #ffffff 100%);
+      color: #3a3020;
+      overflow: hidden;
+      padding: 180px 0 180px;
+      isolation: isolate;
+    }
+    .manifesto::after {
+      content: ''; position: absolute; inset: 0;
+      pointer-events: none; z-index: 0; opacity: 0.6;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 0.39 0 0 0 0 0.31 0 0 0 0 0.19 0 0 0 0.28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - 160px), transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - 160px), transparent 100%);
+    }
+    .manifesto::before {
+      content: ''; position: absolute; inset: 0;
+      pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(100,80,49,0.07), transparent 55%),
+        radial-gradient(ellipse at 80% 90%, rgba(100,80,49,0.06), transparent 60%),
+        linear-gradient(180deg, rgba(100,80,49,0.02) 0%, transparent 15%, transparent 85%, rgba(100,80,49,0.03) 100%);
+    }
+    .mf-wordmark {
+      position: absolute; inset: auto 0 auto 0; top: 110px;
+      text-align: center; pointer-events: none; z-index: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(120px, 22vw, 300px);
+      line-height: 0.85; letter-spacing: -0.02em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(100,80,49,0.09);
+      white-space: nowrap; user-select: none;
+    }
+    .mf-wordmark.bottom {
+      top: auto; bottom: 80px;
+      -webkit-text-stroke: 1px rgba(100,80,49,0.06);
+    }
+    .mf-inner {
+      position: relative; z-index: 1;
+      max-width: 1240px; margin: 0 auto; padding: 0 100px;
+    }
+
+    /* Editorial corner frames */
+    .mf-frame {
+      position: absolute; pointer-events: none; z-index: 1;
+      width: 56px; height: 56px;
+      border-color: rgba(179,167,143,0.55);
+    }
+    .mf-frame.tl { top: 60px; left: 60px; border-top: 1px solid; border-left: 1px solid; }
+    .mf-frame.tr { top: 60px; right: 60px; border-top: 1px solid; border-right: 1px solid; }
+    .mf-frame.bl { bottom: 60px; left: 60px; border-bottom: 1px solid; border-left: 1px solid; }
+    .mf-frame.br { bottom: 60px; right: 60px; border-bottom: 1px solid; border-right: 1px solid; }
+
+    /* Hero statement */
+    .mf-hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 80px; align-items: end;
+      margin-bottom: 80px;
+    }
+    .mf-hero-left {
+      max-width: 900px; margin: 0 auto; text-align: center;
+    }
+    .mf-headline {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200;
+      font-size: clamp(30px, 4vw, 58px);
+      letter-spacing: 0.14em;
+      line-height: 2.0;
+      color: #3a3020;
+      margin-bottom: 40px;
+    }
+    .mf-headline .highlight {
+      position: relative; font-weight: 300; color: #3a3020;
+    }
+    .mf-headline .highlight::after {
+      content: ''; position: absolute;
+      left: 0; right: 0; bottom: -0.1em; height: 10px;
+      background: rgba(217,162,27,0.18); z-index: -1;
+    }
+    .mf-hero-signature {
+      display: flex; align-items: center; gap: 20px;
+      justify-content: center; margin-top: 16px;
+    }
+    .mf-hero-signature .sig-line { height: 1px; width: 80px; background: #c4b08a; }
+    .mf-hero-signature .sig-logo {
+      height: 160px; width: auto; object-fit: contain;
+    }
+
+    /* Chapter index */
+    .mf-chapters {
+      position: relative; max-width: 1040px; margin: 0 auto 180px;
+      padding-top: 100px;
+    }
+    .mf-chapters::before {
+      content: ''; position: absolute; top: 40px; left: 50%;
+      width: min(560px, 70%); height: 1px; background: #c4b08a;
+      transform: translateX(-50%);
+      opacity: 0.5;
+    }
+    .mf-chapter-index {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 72px 80px;
+    }
+    .mf-chapter {
+      position: relative; padding-top: 40px;
+    }
+    .mf-chapter .ch-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 28px; border-bottom: 1px solid #c4b08a; margin-bottom: 36px;
+    }
+    .mf-chapter .ch-num {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-weight: 300; font-size: 84px; line-height: 0.9;
+      color: #d9a21b; letter-spacing: -0.02em;
+    }
+    .mf-chapter .ch-label { text-align: right; }
+    .mf-chapter .ch-label .en {
+      display: block;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: #b3a78f; margin-bottom: 6px;
+    }
+    .mf-chapter .ch-label .jp {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300; font-size: 13px;
+      color: #8a7e6a; letter-spacing: 0.2em;
+    }
+    .mf-chapter h3 {
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: clamp(19px, 1.7vw, 24px);
+      letter-spacing: 0.12em; line-height: 2.1;
+      color: #3a3020; margin-bottom: 28px;
+    }
+    .mf-chapter h3 .em {
+      font-weight: 400; color: #645031;
+      border-bottom: 1px solid rgba(217,162,27,0.4);
+      padding-bottom: 3px;
+    }
+    .mf-chapter p {
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: 15px; line-height: 2.4;
+      letter-spacing: 0.06em; color: #645031;
+    }
+    .mf-chapter .ch-tag {
+      display: inline-block; margin-top: 28px;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: #b3a78f;
+      padding-top: 14px; border-top: 1px solid rgba(196,176,138,0.4);
+    }
+    .mf-chapter-index .mf-chapter:nth-child(2) { padding-top: 120px; }
+    .mf-chapter-index .mf-chapter:nth-child(2) .ch-num { color: #645031; }
+
+    /* Team — editorial contact sheet */
+    .mf-team {
+      position: relative; max-width: 1100px; margin: 0 auto;
+      padding-top: 100px;
+      border-top: 1px solid rgba(196,176,138,0.4);
+    }
+    .mf-team-head {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 48px; align-items: end; margin-bottom: 80px;
+    }
+    .mf-team-head-left .en {
+      display: block;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 12px; letter-spacing: 0.5em; text-transform: uppercase;
+      color: #b3a78f; margin-bottom: 16px;
+    }
+    .mf-team-head-left h3 {
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: clamp(22px, 2.2vw, 30px);
+      letter-spacing: 0.14em; line-height: 1.8; color: #3a3020;
+    }
+    .mf-team-head-right {
+      text-align: right;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: #8a7e6a; padding-bottom: 6px;
+    }
+    .mf-team-head-right strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif; font-style: normal;
+      font-weight: 300; font-size: 24px; letter-spacing: 0.1em;
+      color: #645031; margin-top: 4px;
+    }
+    .mf-team-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px;
+    }
+    .mf-member { position: relative; }
+    .mf-member:nth-child(2) { margin-top: 48px; }
+    .mf-member:nth-child(3) { margin-top: 16px; }
+    .mf-member-frame {
+      position: relative; aspect-ratio: 3/4; overflow: hidden;
+      background: linear-gradient(180deg, #ddd5c8, #c4b08a);
+    }
+    .mf-member-frame img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: saturate(0.95) contrast(0.95);
+      transition: transform 1.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .mf-member:hover .mf-member-frame img { transform: scale(1.05); }
+    .mf-member-frame::after {
+      content: ''; position: absolute; inset: 0;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+      pointer-events: none;
+    }
+    .mf-member-frame .corner {
+      position: absolute; width: 16px; height: 16px;
+      border: 1px solid rgba(255,255,255,0.65);
+      pointer-events: none;
+    }
+    .mf-member-frame .corner.tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+    .mf-member-frame .corner.tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
+    .mf-member-frame .corner.bl { bottom: 14px; left: 14px; border-right: 0; border-top: 0; }
+    .mf-member-frame .corner.br { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+    .mf-member-num {
+      position: absolute; top: -28px; left: -6px;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-weight: 300; font-size: 64px; line-height: 1;
+      color: #d9a21b; z-index: 2;
+    }
+    .mf-member-meta {
+      padding: 26px 0 0;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: baseline; gap: 16px;
+      border-top: 1px solid rgba(196,176,138,0.5);
+      margin-top: 26px;
+    }
+    .mf-member-name-jp {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 400; font-size: 17px;
+      letter-spacing: 0.22em; color: #645031;
+    }
+    .mf-member-name-en {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-weight: 300; font-size: 13px;
+      letter-spacing: 0.2em; color: #b3a78f; text-align: right;
+    }
+    .mf-member-role {
+      grid-column: 1 / -1; margin-top: 6px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: #8a7e6a;
+    }
+
     /* ===== ABOUT ===== */
     .about { padding: 140px 0 100px; }
     .about-text { max-width: 680px; margin: 0 auto; text-align: center; padding: 0 40px; }
@@ -196,7 +448,7 @@
 
     /* ===== MISSION ===== */
     .mission {
-      padding: 120px 40px; background: #ddd5c8; text-align: center;
+      padding: 120px 40px; background: #faf8f5; text-align: center;
       position: relative; overflow: hidden;
     }
     .mission-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
@@ -462,6 +714,35 @@
       .cta { padding: 80px 20px }
       .section-title h2 { font-size: 24px }
       .feature-content h3 { font-size: 20px }
+      .manifesto { padding: 90px 0 100px; }
+      .mf-inner { padding: 0 28px; }
+      .mf-frame { width: 32px; height: 32px; }
+      .mf-frame.tl, .mf-frame.tr { top: 24px; }
+      .mf-frame.bl, .mf-frame.br { bottom: 24px; }
+      .mf-frame.tl, .mf-frame.bl { left: 24px; }
+      .mf-frame.tr, .mf-frame.br { right: 24px; }
+      .mf-wordmark { top: 70px; font-size: clamp(80px, 30vw, 140px); }
+      .mf-wordmark.bottom { bottom: 40px; }
+      .mf-hero { gap: 40px; margin-bottom: 80px; }
+      .mf-headline { font-size: 22px; letter-spacing: 0.1em; line-height: 2.0; }
+      .mf-hero-signature { margin-top: 12px; }
+      .mf-hero-signature .sig-line { width: 40px; }
+      .mf-hero-signature .sig-logo { height: 104px; }
+      .mf-chapters { margin-bottom: 100px; padding-top: 72px; }
+      .mf-chapters::before { width: 80%; top: 28px; }
+      .mf-chapter-index { grid-template-columns: 1fr; gap: 64px; }
+      .mf-chapter-index .mf-chapter:nth-child(2) { padding-top: 20px; }
+      .mf-chapter { padding-top: 20px; }
+      .mf-chapter .ch-num { font-size: 56px; }
+      .mf-chapter h3 { font-size: 18px; line-height: 1.9; }
+      .mf-chapter p { font-size: 14px; line-height: 2.1; }
+      .mf-team { padding-top: 72px; }
+      .mf-team-head { grid-template-columns: 1fr; gap: 24px; }
+      .mf-team-head-right { text-align: left; }
+      .mf-team-head-left h3 { font-size: 20px; }
+      .mf-team-grid { grid-template-columns: 1fr; gap: 80px; max-width: 340px; margin: 0 auto; }
+      .mf-member:nth-child(n) { margin-top: 0; }
+      .mf-member-num { font-size: 48px; top: -22px; }
       .footer-tagline { font-size: 9px; letter-spacing: 0.06em }
       .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
       .footer-links a { font-size: 10px }
@@ -474,6 +755,89 @@
       transition: opacity 1s ease, transform 1s ease;
     }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    /* Hero parallax */
+    .hero-slide { will-change: transform; }
+    .hero-content { will-change: transform, opacity; }
+    .hero-scroll { transition: opacity 0.4s ease; }
+
+    /* Line-by-line reveal (blur dissolve + micro letter-spacing) */
+    .mf-line, .hero-title-reveal .mf-line {
+      display: block;
+    }
+    .mf-line-in {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(14px);
+      letter-spacing: 0.4em;
+      transition:
+        opacity 1.8s cubic-bezier(0.22,1,0.36,1),
+        filter 1.8s cubic-bezier(0.22,1,0.36,1),
+        letter-spacing 1.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .mf-headline-reveal.visible .mf-line:nth-child(1) .mf-line-in { transition-delay: 0.1s; }
+    .mf-headline-reveal.visible .mf-line:nth-child(2) .mf-line-in { transition-delay: 0.45s; }
+    .mf-headline-reveal.visible .mf-line:nth-child(3) .mf-line-in { transition-delay: 0.8s; }
+    .hero-title-reveal.visible .mf-line:nth-child(1) .mf-line-in { transition-delay: 0.3s; }
+    .hero-title-reveal.visible .mf-line:nth-child(2) .mf-line-in { transition-delay: 0.7s; }
+    .mf-headline-reveal.visible .mf-line-in,
+    .hero-title-reveal.visible .mf-line-in {
+      opacity: 1; filter: blur(0); letter-spacing: inherit;
+    }
+
+    /* Highlight underline draw */
+    .mf-headline .highlight::after {
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.9s;
+    }
+    .mf-headline-reveal.visible .highlight::after { transform: scaleX(1); }
+
+    /* Chapter block accent line (border-bottom of ch-top) */
+    .mf-chapter .ch-top { position: relative; }
+    .mf-chapter .ch-top::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+      background: #d9a21b; transform: scaleX(0); transform-origin: left center;
+      transition: transform 1s cubic-bezier(0.22,1,0.36,1) 0.2s;
+    }
+    .mf-chapter.visible .ch-top::after { transform: scaleX(1); }
+
+    /* Member frame curtain reveal */
+    .mf-member-reveal .mf-member-frame {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 1.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .mf-member-reveal.visible .mf-member-frame {
+      clip-path: inset(0 0 0 0);
+    }
+    .mf-member-reveal .mf-member-num {
+      opacity: 0; transform: translateY(-10px);
+      transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+    }
+    .mf-member-reveal.visible .mf-member-num { opacity: 1; transform: translateY(0); }
+
+    /* Signature line grow */
+    .mf-hero-signature .sig-line {
+      transform-origin: left center; transform: scaleX(0);
+      transition: transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.8s;
+    }
+    .mf-hero-signature.visible .sig-line { transform: scaleX(1); }
+    .mf-hero-signature .sig-logo {
+      opacity: 0; transform: translateX(-12px);
+      transition: opacity 1s ease 1.2s, transform 1s ease 1.2s;
+    }
+    .mf-hero-signature.visible .sig-logo { opacity: 1; transform: translateX(0); }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .mf-line-in, .hero-slide, .hero-content,
+      .mf-headline .highlight::after, .mf-chapter .ch-top::after,
+      .mf-member-reveal .mf-member-frame, .mf-hero-signature .sig-line,
+      .mf-hero-signature .sig-logo {
+        transition: none !important; transform: none !important;
+        clip-path: none !important;
+      }
+    }
   </style>
 </head>
 
@@ -493,6 +857,7 @@
   <!-- NAV -->
   <button class="nav-overlay" id="navOverlay" aria-label="メニューを閉じる"></button>
   <nav class="nav-menu" id="navMenu">
+    <a href="#story">私たちの想い<span class="nav-en">Our Story</span></a>
     <a href="#about">GoEnbaとは<span class="nav-en">About</span></a>
     <a href="#features">特徴<span class="nav-en">Features</span></a>
     <a href="#flow">ご参加の流れ<span class="nav-en">Flow</span></a>
@@ -502,17 +867,120 @@
 
   <!-- HERO -->
   <section class="hero" id="top">
-    <div class="hero-slide"></div>
-    <div class="hero-content">
+    <div class="hero-slide" id="heroSlide"></div>
+    <div class="hero-content" id="heroContent">
       <p class="hero-en fade-in">Farm to Table, Direct</p>
-      <h1 class="hero-title fade-in">
-        農業に、専念できる。<br>
-        お客様との『ご縁』は、私たちが。
+      <h1 class="hero-title hero-title-reveal">
+        <span class="mf-line"><span class="mf-line-in">農業に、専念できる。</span></span>
+        <span class="mf-line"><span class="mf-line-in">お客様との『ご縁』は、私たちが。</span></span>
       </h1>
     </div>
-    <div class="hero-scroll">
+    <div class="hero-scroll" id="heroScroll">
       <span class="hero-scroll-text">Scroll</span>
       <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO (想いセクション) -->
+  <section class="manifesto" id="story">
+    <span class="mf-frame tl" aria-hidden="true"></span>
+    <span class="mf-frame tr" aria-hidden="true"></span>
+    <span class="mf-frame bl" aria-hidden="true"></span>
+    <span class="mf-frame br" aria-hidden="true"></span>
+    <div class="mf-inner">
+
+      <!-- Hero statement -->
+      <div class="mf-hero">
+        <div class="mf-hero-left">
+          <h2 class="mf-headline mf-headline-reveal">
+            <span class="mf-line"><span class="mf-line-in">土に触れる手が、</span></span>
+            <span class="mf-line"><span class="mf-line-in">一番に、<span class="highlight">報われる場所</span>で</span></span>
+            <span class="mf-line"><span class="mf-line-in">ありたい。</span></span>
+          </h2>
+          <div class="mf-hero-signature fade-in">
+            <img src="images/goenba-main-logo.png" alt="GoEnba" class="sig-logo">
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapter index -->
+      <div class="mf-chapters">
+        <div class="mf-chapter-index">
+          <div class="mf-chapter fade-in">
+            <div class="ch-top">
+              <div class="ch-num">01</div>
+              <div class="ch-label">
+                <span class="en">Background</span>
+                <span class="jp">時代への問いかけ</span>
+              </div>
+            </div>
+            <h3>日本の食を支える現場は、<br><span class="em">静かな危機</span>に瀕している。</h3>
+            <p>肥料や資材の価格は上がり続け、出口となる販売価格は市場の波に翻弄される。子供たちの未来を想い、手間と暇を惜しまず、愛情を込めて土を耕す人ほど、経済的な不利益を被ってしまう。そんな「おかしい」が当たり前になってしまった構造を、私たちは変えたいと考えています。</p>
+            <span class="ch-tag">Issue / 構造の歪み</span>
+          </div>
+
+          <div class="mf-chapter fade-in">
+            <div class="ch-top">
+              <div class="ch-num">02</div>
+              <div class="ch-label">
+                <span class="en">Our Statement</span>
+                <span class="jp">私たちの約束</span>
+              </div>
+            </div>
+            <h3>食は、生命の根幹。<br>だからこそ、作り手を<span class="em">「仕組み」で守る</span>。</h3>
+            <p>摂取しなければ生きていけないエッセンシャルな部分を支えているのは、誰よりも誇り高い生産者の方々です。彼らが損をせず、次のシーズンも、その次の10年も、安心して作物と向き合える環境を作ること。それが、エンジニアリングと情熱を併せ持つ私たちの使命です。</p>
+            <span class="ch-tag">Mission / 伴走支援</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team -->
+      <div class="mf-team">
+        <div class="mf-team-head fade-in">
+          <div class="mf-team-head-left">
+            <span class="en">The Team &mdash; Chapter 03</span>
+            <h3>この想いを、かたちにする人たち。</h3>
+          </div>
+        </div>
+        <div class="mf-team-grid">
+          <div class="mf-member fade-in mf-member-reveal">
+            <div class="mf-member-frame">
+              <img src="images/members/riku.png" alt="関根 陸">
+              <span class="corner tl"></span><span class="corner tr"></span>
+              <span class="corner bl"></span><span class="corner br"></span>
+            </div>
+            <div class="mf-member-meta">
+              <span class="mf-member-name-jp">関根 陸</span>
+              <span class="mf-member-name-en">Riku Sekine</span>
+              <span class="mf-member-role">Co-founder / Product</span>
+            </div>
+          </div>
+          <div class="mf-member fade-in mf-member-reveal">
+            <div class="mf-member-frame">
+              <img src="images/members/seira.png" alt="岡崎 聖羅">
+              <span class="corner tl"></span><span class="corner tr"></span>
+              <span class="corner bl"></span><span class="corner br"></span>
+            </div>
+            <div class="mf-member-meta">
+              <span class="mf-member-name-jp">岡崎 聖羅</span>
+              <span class="mf-member-name-en">Seira Okazaki</span>
+              <span class="mf-member-role">Co-founder / Design</span>
+            </div>
+          </div>
+          <div class="mf-member fade-in mf-member-reveal">
+            <div class="mf-member-frame">
+              <img src="images/members/ryota.png" alt="古賀 凌太">
+              <span class="corner tl"></span><span class="corner tr"></span>
+              <span class="corner bl"></span><span class="corner br"></span>
+            </div>
+            <div class="mf-member-meta">
+              <span class="mf-member-name-jp">古賀 凌太</span>
+              <span class="mf-member-name-en">Ryota Koga</span>
+              <span class="mf-member-role">Co-founder / Engineering</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -766,7 +1234,7 @@
         <span class="brush"></span>
       </div>
       <div class="video-wrapper fade-in">
-        <iframe src="https://www.youtube-nocookie.com/embed/BMkEcpmh-GY?rel=0" title="GoEnba 農家さん向け紹介動画"
+        <iframe src="https://www.youtube.com/embed/BMkEcpmh-GY?rel=0&playsinline=1" title="GoEnba 農家さん向け紹介動画"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen></iframe>
@@ -804,14 +1272,31 @@
   </footer>
 
   <script>
-    // Header scroll
+    // Header + Hero parallax scroll
     const header = document.getElementById('header');
+    const heroSlide = document.getElementById('heroSlide');
+    const heroContent = document.getElementById('heroContent');
+    const heroScroll = document.getElementById('heroScroll');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+    function onScroll() {
+      const y = window.scrollY;
+      header.classList.toggle('scrolled', y > 80);
+      if (!prefersReduced && heroSlide && y < window.innerHeight) {
+        const ratio = Math.min(y / window.innerHeight, 1);
+        heroSlide.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+        heroContent.style.setProperty('--parallax-y', (y * 0.22) + 'px');
+        heroContent.style.opacity = String(1 - ratio * 1.2);
+        heroScroll.style.opacity = String(1 - ratio * 2);
+      }
+      ticking = false;
+    }
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 80);
-    });
+      if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+    }, { passive: true });
 
-    // Fade-in on scroll
-    const fadeEls = document.querySelectorAll('.fade-in');
+    // Reveal on scroll (fade-in + line/highlight/member reveals)
+    const revealEls = document.querySelectorAll('.fade-in, .mf-headline-reveal, .hero-title-reveal');
     const fadeObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
@@ -820,7 +1305,7 @@
         }
       });
     }, { threshold: 0.15 });
-    fadeEls.forEach(el => fadeObserver.observe(el));
+    revealEls.forEach(el => fadeObserver.observe(el));
 
     // Hamburger menu
     const menuBtn = document.getElementById('menuBtn');
